@@ -1,6 +1,12 @@
 package com.ecommerce.ecommerce.model;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name ="tbl_productos")
 public class Producto {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nombre;
     private String descripcion;
@@ -8,16 +14,21 @@ public class Producto {
     private double precio;
     private int cantidad;
 
+    @ManyToOne
+    private Usuario usuario;
+
     public Producto() {
     }
 
-    public Producto(Long id, String nombre, String descripcion, String imagen, double precio, int cantidad) {
+
+    public Producto(Long id, String nombre, String descripcion, String imagen, double precio, int cantidad, Usuario usuario) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.imagen = imagen;
         this.precio = precio;
         this.cantidad = cantidad;
+        this.usuario = usuario;
     }
 
     public Long getId() {
@@ -66,6 +77,14 @@ public class Producto {
 
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     @Override

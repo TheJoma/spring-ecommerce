@@ -1,16 +1,14 @@
 package com.ecommerce.ecommerce.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@Table(name = "tbl_usuario")
+@Table(name = "tbl_usuarios")
 public class Usuario {
 
     @Id
-    @GeneratedValue()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nombre;
     private String username;
@@ -19,6 +17,13 @@ public class Usuario {
     private String direccion;
     private String telefono;
     private String tipo;
+
+    @OneToMany(mappedBy = "usuario")
+    private List<Producto> productos;
+
+    @OneToMany(mappedBy = "usuario")
+    private List<Orden> ordenes;
+
 
     public Usuario() {
     }
@@ -98,6 +103,21 @@ public class Usuario {
         this.tipo = tipo;
     }
 
+    public List<Producto> getProductos() {
+        return productos;
+    }
+
+    public void setProductos(List<Producto> productos) {
+        this.productos = productos;
+    }
+
+    public List<Orden> getOrdenes() {
+        return ordenes;
+    }
+
+    public void setOrdenes(List<Orden> ordenes) {
+        this.ordenes = ordenes;
+    }
 
     @Override
     public String toString() {
