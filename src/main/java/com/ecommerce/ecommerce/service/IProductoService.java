@@ -2,6 +2,7 @@ package com.ecommerce.ecommerce.service;
 
 import com.ecommerce.ecommerce.model.Producto;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface IProductoService {
@@ -17,5 +18,7 @@ public interface IProductoService {
     //Eliminar Producto
     public void delete(Long id);
 
+    //para mostrar el producto
+    public List<Producto> findAll();
 
 }
