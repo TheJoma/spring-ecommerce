@@ -3,12 +3,15 @@ package com.ecommerce.ecommerce.controller;
 import com.ecommerce.ecommerce.model.Producto;
 import com.ecommerce.ecommerce.model.Usuario;
 import com.ecommerce.ecommerce.service.ProductoServiceImpl;
+import com.ecommerce.ecommerce.service.UploadFileService;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Optional;
 
 @Controller
@@ -20,6 +23,9 @@ public class ProductoController {
 
     @Autowired
     private ProductoServiceImpl productoService;
+
+    @Autowired
+    private UploadFileService upload;
 
     //vista para la lista de productos
     @GetMapping("")
@@ -35,10 +41,27 @@ public class ProductoController {
     }
    //metodo para registrar el producto
     @PostMapping("/save")
-    public String save(Producto producto){
+    public String save(Producto producto,@RequestParam("img") MultipartFile file) throws IOException {
         LOGGER.info("Este es el objeto de producto {}",producto);
         Usuario usuario = new Usuario(1L,"","","","","","","");
         producto.setUsuario(usuario);
+
+        //imagen
+        if(producto.getId()==null){ //cuando se crea un producto el id sera null
+
+            String nombreImagen = upload.saveImage(file);
+            producto.setImagen(nombreImagen);
+        }else {
+            if (file.isEmpty()){//editamos el producto pero no cambiamos la imagen
+                Producto p = new Producto();
+                p=productoService.get(producto.getId()).get();
+                producto.setImagen(p.getImagen());
+            }else{
+                String nombreImagen = upload.saveImage(file);
+                producto.setImagen(nombreImagen);
+            }
+        }
+
         productoService.save(producto);
         return "redirect:/productos";
     }
