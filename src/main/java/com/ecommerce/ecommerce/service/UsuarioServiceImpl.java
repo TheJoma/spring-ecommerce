@@ -1,7 +1,7 @@
 package com.ecommerce.ecommerce.service;
 
 import com.ecommerce.ecommerce.model.Usuario;
-import com.ecommerce.ecommerce.repository.UsuarioRepository;
+import com.ecommerce.ecommerce.repository.IUsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ import java.util.Optional;
 public class UsuarioServiceImpl implements IUsuarioService{
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private IUsuarioRepository usuarioRepository;
 
     @Override
     public Optional<Usuario> findById(Long id) {
