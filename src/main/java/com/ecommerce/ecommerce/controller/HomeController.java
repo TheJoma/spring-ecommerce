@@ -3,6 +3,9 @@ package com.ecommerce.ecommerce.controller;
 import com.ecommerce.ecommerce.model.DetalleOrden;
 import com.ecommerce.ecommerce.model.Orden;
 import com.ecommerce.ecommerce.model.Producto;
+import com.ecommerce.ecommerce.model.Usuario;
+import com.ecommerce.ecommerce.service.IProductoService;
+import com.ecommerce.ecommerce.service.IUsuarioService;
 import com.ecommerce.ecommerce.service.ProductoServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +25,10 @@ public class HomeController {
     private final Logger log = LoggerFactory.getLogger(HomeController.class);
 
     @Autowired
-    private ProductoServiceImpl productoService;
+    private IProductoService productoService;
+
+    @Autowired
+    private IUsuarioService usuarioService;
 
     //esto es para almacenar los detalles de la orden
     List<DetalleOrden> detalles = new ArrayList<DetalleOrden>();
@@ -118,6 +124,16 @@ public class HomeController {
         model.addAttribute("cart",detalles);
         model.addAttribute("orden",orden);
         return "/usuario/carrito";
+    }
+
+    @GetMapping("/order")
+    public String order(Model model){
+        Usuario usuario = usuarioService.findById(1L).get();
+        log.info("usuario : {}" , usuario);
+        model.addAttribute("cart",detalles);
+        model.addAttribute("orden",orden);
+        model.addAttribute("usuario",usuario);
+        return "usuario/resumenorden";
     }
 
 }
