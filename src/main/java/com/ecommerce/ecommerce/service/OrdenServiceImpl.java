@@ -25,6 +25,7 @@ public class OrdenServiceImpl implements IOrdenService{
     }
 
     //formato 000010
+    @Override
     public String generarNumeroOrden(){
         int numero = 0;
         String numeroConcatenado = "";
