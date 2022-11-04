@@ -1,6 +1,7 @@
 package com.ecommerce.ecommerce.controller;
 
 import com.ecommerce.ecommerce.model.Producto;
+import com.ecommerce.ecommerce.service.IOrdenService;
 import com.ecommerce.ecommerce.service.IProductoService;
 import com.ecommerce.ecommerce.service.IUsuarioService;
 import com.ecommerce.ecommerce.service.ProductoServiceImpl;
@@ -21,6 +22,10 @@ public class AdministradorController {
 
     @Autowired
     private IProductoService productoService;
+
+    @Autowired
+    private IOrdenService ordenService;
+
     @GetMapping("")
     public String home(Model model){
         List<Producto> productos = productoService.findAll();
@@ -33,4 +38,11 @@ public class AdministradorController {
         model.addAttribute("usuarios",usuarioService.findAll());
         return "administrador/usuarios";
     }
+
+    @GetMapping("/ordenes")
+    public String ordenes(Model model){
+        model.addAttribute("ordenes",ordenService.findAll());
+        return "administrador/ordenes";
+    }
+
 }
