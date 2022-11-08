@@ -53,10 +53,10 @@ public class UsuarioController {
        return "usuario/login";
     }
 
-    @PostMapping("/acceder")
+    @GetMapping("/acceder")
     public String acceder(Usuario usuario, HttpSession session){
         logger.info("Accesos : {}",usuario);
-        Optional<Usuario> user = usuarioService.findByEmail(usuario.getEmail());
+        Optional<Usuario> user = usuarioService.findById(Long.parseLong(session.getAttribute("idusuario").toString()));
 
         //logger.info("Usuario de db: {}",user.get());
 
@@ -76,7 +76,7 @@ public class UsuarioController {
 
     @GetMapping("/compras")
     public String obtenerCompras(Model model, HttpSession session){
-        model.addAttribute("session",session.getAttribute("idusuario"));
+        model.addAttribute("sesion",session.getAttribute("idusuario"));
         Usuario usuario = usuarioService.findById(Long.parseLong(session.getAttribute("idusuario").toString())).get();
         List<Orden> ordenes = ordenService.findByUsuario(usuario);
 
